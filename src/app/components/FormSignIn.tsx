@@ -3,8 +3,6 @@ import Image from "next/image";
 import React, { FormEvent } from "react";
 import { isEmail } from "../core/utils/utils";
 import Logo from "./Logo";
-import { FaBeer } from "react-icons/fa";
-import { BsEye } from "react-icons/bs";
 
 interface Props {
   onSubmit(email: string, password: string): void;
