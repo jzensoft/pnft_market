@@ -3,17 +3,30 @@ import Image from "next/image";
 import FormSignIn from "./components/FormSignIn";
 import Wellcome from "./components/Wellcome";
 import { container } from "./di/injection_container";
-import { PhotoRepsitory } from "./domain/photo_repository";
 import { IntjectionKey } from "./di/injection_key";
-import { useEffect } from "react";
+import { UserRepsitory } from "./domain/user_repositort";
+import { LoginUserDto } from "../../api/pnft_api/src/dto/user.dto";
 
 export default function Home() {
-  const photoRepository = container.get<PhotoRepsitory>(
-    IntjectionKey.PHOTOREPOSITORY
+  const userRepository = container.get<UserRepsitory>(
+    IntjectionKey.USER_POSITORY
   );
 
-  const onSignIn = (email: string, password: string) => {
-    console.log(email + password);
+  const onSignIn = async (email: string, password: string) => {
+    const req: LoginUserDto = {
+      email: email,
+      password: password,
+    };
+    try {
+      const res = await userRepository.login(req);
+      if (res.data != null) {
+        console.log(res);
+      } else {
+        console.log("Invalid email or password.");
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (

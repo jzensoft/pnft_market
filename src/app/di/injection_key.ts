@@ -1,4 +1,4 @@
 export const IntjectionKey = {
     API_SERVICE: Symbol.for("API_SERVICE"),
-    PHOTOREPOSITORY: Symbol.for("PHOTOREPOSITORY")
+    USER_POSITORY: Symbol.for("USER_POSITORY")
 }
