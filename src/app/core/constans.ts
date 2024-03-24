@@ -1,0 +1,3 @@
+const LOGIN_TOKEN = "LOGIN_TOKEN"
+
+export { LOGIN_TOKEN }

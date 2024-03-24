@@ -6,11 +6,16 @@ import { container } from "./di/injection_container";
 import { IntjectionKey } from "./di/injection_key";
 import { UserRepsitory } from "./domain/user_repositort";
 import { LoginUserDto } from "../../api/pnft_api/src/dto/user.dto";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import { LOGIN_TOKEN } from "./core/constans";
 
 export default function Home() {
   const userRepository = container.get<UserRepsitory>(
     IntjectionKey.USER_POSITORY
   );
+
+  const router = useRouter();
 
   const onSignIn = async (email: string, password: string) => {
     const req: LoginUserDto = {
@@ -20,7 +25,10 @@ export default function Home() {
     try {
       const res = await userRepository.login(req);
       if (res.data != null) {
-        console.log(res);
+        Cookies.set(LOGIN_TOKEN, res.data.email, {
+          expires: 1,
+        });
+        router.replace("/profile");
       } else {
         console.log("Invalid email or password.");
       }
