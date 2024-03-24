@@ -2,13 +2,13 @@
 import Image from "next/image";
 import React, { FormEvent } from "react";
 import { isEmail } from "../core/utils/utils";
+import Logo from "./Logo";
 
 interface Props {
   onSubmit(email: string, password: string): void;
 }
 
 function FormSignIn(props: Props) {
-
   const handleOnSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const email = event.currentTarget.elements.Email.value;
@@ -23,17 +23,7 @@ function FormSignIn(props: Props) {
   return (
     <div className="h-screen p-5">
       <div className="flex flex-col items-center h-full justify-between">
-        <div className="flex flex-row items-center  justify-center sm:justify-start w-full">
-          <div>
-            <Image
-              src={"/static/icon_logo.svg"}
-              alt=""
-              width={40}
-              height={40}
-            />
-          </div>
-          <div className="ml-1 font-semibold">PNFT Market</div>
-        </div>
+        <Logo />
 
         <form onSubmit={handleOnSubmit}>
           <div>
@@ -88,7 +78,10 @@ function FormSignIn(props: Props) {
           >
             Sign In
           </button>
-          <button type="button" className="mt-5 w-full border text-black text-sm  items-center justify-center flex py-2 px-4 rounded cursor-pointer">
+          <button
+            type="button"
+            className="mt-5 w-full border text-black text-sm  items-center justify-center flex py-2 px-4 rounded cursor-pointer"
+          >
             <Image
               src={"/static/icon_google.svg"}
               alt=""

@@ -3,8 +3,8 @@ import { inject, injectable } from "inversify"
 import ApiService from "../api_service";
 import { IntjectionKey } from "@/app/di/injection_key";
 import { UserRepsitory } from "@/app/domain/user_repositort";
-import { User } from "../../../../api/pnft_api/src/entity/user.entity";
-import { LoginUserDto } from "../../../../api/pnft_api/src/dto/user.dto";
+import { User } from "../model/user";
+import { FindUserDto, LoginUserDto } from '../../core/dto/user_dto';
 
 
 @injectable()
@@ -15,8 +15,17 @@ class UserRepsitoryImpl implements UserRepsitory {
 
     async login(data: LoginUserDto): Promise<DataState<User | null>> {
         try {
-            const res = await this._remote.getInstance().post<User>("/users/login", data);
-            return new DataState(res.data, res.status == 200, res.statusText)
+            const res = await this._remote.getInstance().post<DataState<User | null>>("/users/login", data);
+            return res.data
+        } catch (e) {
+            return new DataState(null, false, (e as Error).message);
+        }
+    }
+
+    async getUserInfo(data: FindUserDto): Promise<DataState<User | null>> {
+        try {
+            const res = await this._remote.getInstance().post<DataState<User | null>>("/users/find", data);
+            return res.data
         } catch (e) {
             return new DataState(null, false, (e as Error).message);
         }

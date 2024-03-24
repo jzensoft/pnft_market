@@ -1,14 +1,13 @@
 "use client";
-import Image from "next/image";
 import FormSignIn from "./components/FormSignIn";
 import Wellcome from "./components/Wellcome";
 import { container } from "./di/injection_container";
 import { IntjectionKey } from "./di/injection_key";
 import { UserRepsitory } from "./domain/user_repositort";
-import { LoginUserDto } from "../../api/pnft_api/src/dto/user.dto";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { LOGIN_TOKEN } from "./core/constans";
+import { LoginUserDto } from "./core/dto/user_dto";
 
 export default function Home() {
   const userRepository = container.get<UserRepsitory>(
@@ -23,17 +22,17 @@ export default function Home() {
       password: password,
     };
     try {
-      const res = await userRepository.login(req);
+      const res = await userRepository.login(req);      
       if (res.data != null) {
         Cookies.set(LOGIN_TOKEN, res.data.email, {
           expires: 1,
         });
         router.replace("/profile");
       } else {
-        console.log("Invalid email or password.");
+        alert(res.error)
       }
     } catch (e) {
-      console.log(e);
+      alert((e as Error).message);
     }
   };
 

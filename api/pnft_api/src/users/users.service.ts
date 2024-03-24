@@ -15,8 +15,12 @@ export class UsersService {
         return await this.userRepository.save(user);
     }
 
-    findAllUser = async (): Promise<User[]> => {
-        return await this.userRepository.find();
+    findUser = async (email: string): Promise<User | null> => {
+        return await this.userRepository.findOne({
+            where: {
+                email: email
+            }
+        });
     }
 
     login = async (data: LoginUserDto): Promise<User | null> => {
